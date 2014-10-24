@@ -24,17 +24,19 @@ Once a UML model is agreed, someone exports it in XMI to a location which can be
 ######Model Conventions
 All classes in your model implements com.hazelcast.nio.serialization.Portable. This isn't something you need to shout about to your Business Analysts and Users. They couldn't and shouldn't care less. If you don't explicitly inherit from Portable, we will inject it.
 
-These are the data types we support:
-* Text. Freetext in a suitable format.
-* Set. A collection of unique somethings.
-* Map. A list of values mapped by keys.
-* List. A non-unique, ordered collection of somethings.
-* Integer. Whole numbers like 1. Or 2. Or 3.
-* Decimal. Decimal numbers like 0.2.
-* Date. As in some calendar/time related data. Not a romantic encounter.
-* Boolean. True or False.
+These are the field data types we support:
+* Text. Freetext, could be anything really. Translates into java.lang.String.
+* Set. A collection of unique somethings. Translates into java.util.Set.
+* Map. A list of values mapped by keys. Translates into java.util.Map.
+* List. A non-unique, ordered collection of somethings. Translates into java.util.List.
+* Integer. Whole numbers like 1. Or 2. Or 3. Translates into java.lang.Integer.
+* Decimal. Decimal numbers like 0.2. Translates into java.lang.Double.
+* Date. As in some calendar/time related data. Not a romantic encounter. Translates into java.util.Date.
+* Boolean. True or False. Translates into java.lang.Boolean.
 
 We thought it would be good to enforce this, since it will keep your models platform independent. No one wants to see java.util.ArrayList fields in your model! You can add your own type extensions however.
+
+Classes only need to have fields. The framework will generate get and set methods. The visibility is also ignored, all fields will be private. Methods are ignored by default. If you wish to have a rich domain model with loads of functionality embedded in your domain objects, you should use a different library for now.
 
 ####Generating the classes
 

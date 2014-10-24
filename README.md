@@ -25,15 +25,17 @@ Once a UML model is agreed, someone exports it in XMI to a location which can be
 All classes in your model implements com.hazelcast.nio.serialization.Portable. This isn't something you need to shout about to your Business Analysts and Users. They couldn't and shouldn't care less. If you don't explicitly inherit from Portable, we will inject it.
 
 You are only allowed to use the data types in our framework:
-*Text. Freetext in a suitable format.
-*Set. A collection of unique somethings.
-*Map. A list of values mapped by keys.
-*List. A non-unique, ordered collection of somethings.
-*Integer. Whole numbers like 1. Or 2. Or 3.
-*Decimal. Decimal numbers like 0.2.
-*Date. As in some calendar/time related data. Not a romantic encounter.
-*Boolean. True or False.
+* Text. Freetext in a suitable format.
+* Set. A collection of unique somethings.
+* Map. A list of values mapped by keys.
+* List. A non-unique, ordered collection of somethings.
+* Integer. Whole numbers like 1. Or 2. Or 3.
+* Decimal. Decimal numbers like 0.2.
+* Date. As in some calendar/time related data. Not a romantic encounter.
+* Boolean. True or False.
 
-
+We thought it would be good to enforce this, since it will keep your models platform independent. No one wants to see java.util.ArrayList fields in your model! You can add your own type extensions however.
 
 ####
+
+####Customization

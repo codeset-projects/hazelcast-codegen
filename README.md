@@ -19,12 +19,12 @@ The model is expressed as a UML Class Diagram describing the static structure of
 
 We use the industry standard XMI format http://en.wikipedia.org/wiki/XMI. Make sure that the UML tool you use supports XMI version 2.4.1. It's easy to add supports for additional versions and formats and more will be added by us.
 
-Once a UML model is agreed, someone exports it in XMI to a location which can be reached by the Maven build of the project.
+Once a UML model is agreed, someone exports it in XMI to a location which can be reached by the Maven build.
 
 ######Model Conventions
 All classes in your model implements com.hazelcast.nio.serialization.Portable. This isn't something you need to shout about to your Business Analysts and Users. They couldn't and shouldn't care less. If you don't explicitly inherit from Portable, we will inject it.
 
-You are only allowed to use the data types in our framework:
+These are the data types we support:
 * Text. Freetext in a suitable format.
 * Set. A collection of unique somethings.
 * Map. A list of values mapped by keys.
@@ -36,6 +36,6 @@ You are only allowed to use the data types in our framework:
 
 We thought it would be good to enforce this, since it will keep your models platform independent. No one wants to see java.util.ArrayList fields in your model! You can add your own type extensions however.
 
-####
+####Generating the classes
 
 ####Customization

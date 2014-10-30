@@ -1,5 +1,6 @@
 package codeset.hazelcast.codegen;
 
+import static codeset.hazelcast.codegen.utils.Utils.getClassById;
 import static codeset.hazelcast.codegen.utils.Utils.getPortables;
 
 import java.io.IOException;
@@ -8,16 +9,18 @@ import java.util.List;
 
 import org.w3c.dom.Node;
 
-import codeset.hazelcast.codegen.utils.Utils;
 import codeset.hazelcast.codegen.xmi.XmiModel;
 import codeset.hazelcast.codegen.xmi.XmiTypeMapping;
 
 import com.hazelcast.nio.serialization.Portable;
 import com.hazelcast.nio.serialization.PortableReader;
 import com.hazelcast.nio.serialization.PortableWriter;
+import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -52,7 +55,7 @@ public class ReadWriteMethod implements Generator {
         for(Node fieldNode : fieldNodes) {
             String fieldName = xmiModel.getName(fieldNode);
             String fieldTypeId = xmiModel.getTypeId(fieldNode);
-            JDefinedClass fieldType = Utils.getClassById(codeModel, fieldTypeId);
+            JDefinedClass fieldType = getClassById(codeModel, fieldTypeId);
 
             // Only create a field for known model types
             if (fieldType != null && fieldName != null) {
@@ -70,15 +73,19 @@ public class ReadWriteMethod implements Generator {
                     readMethodName = "readPortable";
                 }
                 JFieldVar field = portableClass.fields().get(fieldName);
-                readMethod.body().assign(field, JExpr._this().invoke(readMethodName).arg(readerVar).arg(fieldName));
-                writeMethod.body().add(JExpr._this().invoke(writeMethodName).arg(writerVar).arg(fieldName).arg(field));
+
+                JBlock hasBlock = readMethod.body()._if(readerVar.invoke("readBoolean").arg("_has__" + fieldName))._then();
+                hasBlock.assign(field, readerVar.invoke(readMethodName).arg(fieldName));
+
+                JBlock nullBlock = writeMethod.body()._if(field.ne(JExpr._null()))._then();
+                nullBlock.add(writerVar.invoke(writeMethodName).arg(fieldName).arg(field));
+                nullBlock.add(writerVar.invoke("writeBoolean").arg("_has__" + fieldName).arg(JExpr.TRUE));
             }
         }
 
-        JVar writer = writeMethod.listParams()[0];
-        writeMethod.body().invoke(JExpr._super(), "writePortable").arg(writer);
-        JVar reader = readMethod.listParams()[0];
-        readMethod.body().invoke(JExpr._super(), "readPortable").arg(reader);
+        writeMethod.body().invoke(JExpr._super(), "writePortable").arg(writerVar);
+
+        readMethod.body().invoke(JExpr._super(), "readPortable").arg(readerVar);
 
     }
 

@@ -5,6 +5,7 @@ import static codeset.hazelcast.codegen.utils.Utils.getPortables;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Node;
@@ -16,11 +17,10 @@ import com.hazelcast.nio.serialization.Portable;
 import com.hazelcast.nio.serialization.PortableReader;
 import com.hazelcast.nio.serialization.PortableWriter;
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
-import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -91,9 +91,19 @@ public class ReadWriteMethod implements Generator {
             }
         }
 
-        writeMethod.body().invoke(JExpr._super(), "writePortable").arg(writerVar);
-
-        readMethod.body().invoke(JExpr._super(), "readPortable").arg(readerVar);
+        boolean isParentPortable = false;
+        Iterator<JClass> parentInterfaces = portableClass._extends()._implements();
+        while(parentInterfaces.hasNext()) {
+            JClass parentInterface = parentInterfaces.next();
+            if(parentInterface.name().equals("Portable")) {
+                isParentPortable = true;
+                break;
+            }
+        }
+        if(isParentPortable) {
+            writeMethod.body().invoke(JExpr._super(), "writePortable").arg(writerVar);
+            readMethod.body().invoke(JExpr._super(), "readPortable").arg(readerVar);
+        }
 
     }
 

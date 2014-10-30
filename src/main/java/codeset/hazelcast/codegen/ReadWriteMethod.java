@@ -75,10 +75,18 @@ public class ReadWriteMethod implements Generator {
                 JFieldVar field = portableClass.fields().get(fieldName);
 
                 JBlock hasBlock = readMethod.body()._if(readerVar.invoke("readBoolean").arg("_has__" + fieldName))._then();
-                hasBlock.assign(field, readerVar.invoke(readMethodName).arg(fieldName));
+                if(fieldType.name().equals("Date")) {
+                    hasBlock.assign(field, JExpr._new(codeModel.ref(Date.class)).arg(readerVar.invoke(readMethodName).arg(fieldName)));
+                } else {
+                    hasBlock.assign(field, readerVar.invoke(readMethodName).arg(fieldName));
+                }
 
                 JBlock nullBlock = writeMethod.body()._if(field.ne(JExpr._null()))._then();
-                nullBlock.add(writerVar.invoke(writeMethodName).arg(fieldName).arg(field));
+                if(fieldType.name().equals("Date")) {
+                    nullBlock.add(writerVar.invoke(writeMethodName).arg(fieldName).arg(field.invoke("getTime")));
+                } else {
+                    nullBlock.add(writerVar.invoke(writeMethodName).arg(fieldName).arg(field));
+                }
                 nullBlock.add(writerVar.invoke("writeBoolean").arg("_has__" + fieldName).arg(JExpr.TRUE));
             }
         }
@@ -125,7 +133,7 @@ public class ReadWriteMethod implements Generator {
             return "writeUTF";
         }
         if (Date.class.isAssignableFrom(type)) {
-            return "writeDate";
+            return "writeLong";
         }
         return null;
 
@@ -167,7 +175,7 @@ public class ReadWriteMethod implements Generator {
             return "readUTF";
         }
         if (Date.class.isAssignableFrom(type)) {
-            return "readDate";
+            return "readLong";
         }
         return null;
 

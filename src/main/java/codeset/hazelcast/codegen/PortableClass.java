@@ -18,10 +18,10 @@ import com.sun.codemodel.JMod;
 
 public class PortableClass implements Generator {
 
-    private String rootPackage;
+    private String basePackage;
 
-    public PortableClass(String rootPackage) {
-        this.rootPackage = rootPackage;
+    public PortableClass(String basePackage) {
+        this.basePackage = basePackage;
     }
 
     @Override
@@ -29,16 +29,16 @@ public class PortableClass implements Generator {
 
         List<Node> classNodes = xmiModel.getClassNodes();
         for(Node node : classNodes) {
-            buildClass(codeModel, rootPackage, xmiModel, node);
+            buildClass(codeModel, basePackage, xmiModel, node);
         }
         setParent(xmiModel, codeModel);
 
     }
 
-    private void buildClass(JCodeModel codeModel, String rootPackage, XmiModel xmiDocument, Node node) {
+    private void buildClass(JCodeModel codeModel, String basePackage, XmiModel xmiDocument, Node node) {
 
-        String packageName = xmiDocument.getPackage(rootPackage, node.getParentNode(), null);
-        if(!packageName.startsWith(rootPackage)) {
+        String packageName = xmiDocument.getPackage(basePackage, node.getParentNode(), null);
+        if(!packageName.startsWith(basePackage)) {
             return;
         }
 
@@ -52,7 +52,7 @@ public class PortableClass implements Generator {
         JDefinedClass cls = newInstance(codeModel, qualifiedName, mods);
 
         // All classes should implement Portable except for default types
-        if(XmiTypeMapping.get(cls.name()) == null) {
+        if(XmiTypeMapping.getMapping(cls.name()) == null) {
             cls._implements(Portable.class);
         }
 

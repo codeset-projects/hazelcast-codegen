@@ -52,7 +52,7 @@ public class XmiModelTest {
     @Test
     public void testId() {
 
-        XmiModel xmiModel = getXmiModel("/test-model.xml");
+        XmiModel xmiModel = getXmiModel("src/test/resources/test-model.xml");
         String id = "EAID_32244815_FF6A_4f20_8FDE_278EF6FFA5A5";
         Node node = xmiModel.getNodeById(id);
         assertNotNull(node);
@@ -74,7 +74,7 @@ public class XmiModelTest {
     @Test
     public void testGetClassNodes() throws XPathExpressionException {
 
-        XmiModel xmiModel = getXmiModel("/test-model.xml");
+        XmiModel xmiModel = getXmiModel("src/test/resources/test-model.xml");
         List<Node> classNodes = xmiModel.getClassNodes();
         assertTrue(classNodes.size() > 0);
         for(Node classNode : classNodes) {
@@ -86,7 +86,7 @@ public class XmiModelTest {
     @Test
     public void testGetName() {
 
-        XmiModel xmiModel = getXmiModel("/test-model.xml");
+        XmiModel xmiModel = getXmiModel("src/test/resources/test-model.xml");
         String id = "EAID_32244815_FF6A_4f20_8FDE_278EF6FFA5A5";
         Node node = xmiModel.getNodeById(id);
         String name = xmiModel.getName(node);
@@ -102,7 +102,7 @@ public class XmiModelTest {
     @Test
     public void testIsAbstract() {
 
-        XmiModel xmiModel = getXmiModel("/test-model.xml");
+        XmiModel xmiModel = getXmiModel("src/test/resources/test-model.xml");
         String id = "EAID_32244815_FF6A_4f20_8FDE_278EF6FFA5A5";
         Node node = xmiModel.getNodeById(id);
         assertTrue(xmiModel.isAbstract(node));
@@ -112,7 +112,7 @@ public class XmiModelTest {
     @Test
     public void testGetParent() {
 
-        XmiModel xmiModel = getXmiModel("/test-model.xml");
+        XmiModel xmiModel = getXmiModel("src/test/resources/test-model.xml");
         String id = "EAID_32244815_FF6A_4f20_8FDE_278EF6FFA5A5";
         Node node = xmiModel.getNodeById(id);
         Node parent = xmiModel.getParent(node);

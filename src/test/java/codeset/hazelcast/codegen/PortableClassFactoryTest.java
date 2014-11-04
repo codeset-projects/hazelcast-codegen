@@ -12,7 +12,7 @@ import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 
-public class PortableFactoryGeneratorTest {
+public class PortableClassFactoryTest {
 
     @Test
     public void testGenerate() throws JClassAlreadyExistsException {

@@ -60,7 +60,7 @@ public class ReadWriteMethod implements Generator {
             // Only create a field for known model types
             if (fieldType != null && fieldName != null) {
                 // Check if we should replace with standard Java type
-                Class<?> javaClass = XmiTypeMapping.get(fieldType.name());
+                Class<?> javaClass = XmiTypeMapping.getMapping(fieldType.name());
                 String writeMethodName = null;
                 String readMethodName = null;
                 if (javaClass != null) {

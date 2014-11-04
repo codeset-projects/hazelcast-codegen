@@ -17,11 +17,11 @@ public class CodegenTest {
 
         JCodeModel codeModel = new JCodeModel();
         XmiParser parser = new XmiParser();
-        String fileName = "/test-model.xml";
+        String fileName = "src/test/resources/codeset-model.xml";
         Document document = parser.parse(fileName);
         XmiModel xmiModel = new XmiModel(document);
 
-        PortableClass portableClass = new PortableClass("test");
+        PortableClass portableClass = new PortableClass("model");
         portableClass.generate(xmiModel, codeModel);
 
         SimpleField simpleField = new SimpleField();

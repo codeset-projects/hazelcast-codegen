@@ -20,14 +20,14 @@ import com.sun.codemodel.JVar;
 public class PortableClassFactory implements Generator {
 
     private String factoryClassName;
-    private int classIdFrom;
     private int factoryId;
+    private int classIdFrom;
 
-    public PortableClassFactory(String factoryClassName, int classIdFrom, int factoryId) {
+    public PortableClassFactory(String factoryClassName, int factoryId, int classIdFrom) {
 
         this.factoryClassName = factoryClassName;
-        this.classIdFrom = classIdFrom;
         this.factoryId = factoryId;
+        this.classIdFrom = classIdFrom;
 
     }
 

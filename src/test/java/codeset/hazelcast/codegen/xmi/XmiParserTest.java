@@ -14,7 +14,7 @@ public class XmiParserTest {
     public void testParse() {
 
         XmiParser parser = new XmiParser();
-        String fileName = "/test-model.xml";
+        String fileName = "src/test/resources/test-model.xml";
         Document document = parser.parse(fileName);
         assertNotNull(document);
 

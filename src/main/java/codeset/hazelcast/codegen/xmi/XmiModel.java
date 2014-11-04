@@ -172,7 +172,7 @@ public class XmiModel {
         return (Node) query("./@association", XPathConstants.NODE);
     }
 
-    public String getPackage(String rootPackage, Node packageNode, String parentPackageName) {
+    public String getPackage(String basePackage, Node packageNode, String parentPackageName) {
 
         String name = getName(packageNode);
         if(parentPackageName != null) {
@@ -180,12 +180,12 @@ public class XmiModel {
         } else {
             parentPackageName = name;
         }
-        if(parentPackageName.startsWith(rootPackage)) {
+        if(parentPackageName != null && parentPackageName.startsWith(basePackage)) {
             return parentPackageName;
         }
         Node parentNode = packageNode.getParentNode();
         if(parentNode != null) {
-            parentPackageName = getPackage(rootPackage, parentNode, parentPackageName);
+            parentPackageName = getPackage(basePackage, parentNode, parentPackageName);
         }
         return parentPackageName;
 

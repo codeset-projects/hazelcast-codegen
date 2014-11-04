@@ -42,6 +42,11 @@ public class SimpleField implements Generator {
 
         String fieldName = xmiModel.getName(fieldNode);
         String fieldTypeId = xmiModel.getTypeId(fieldNode);
+        Class<?> javaClass = XmiTypeMapping.getMapping(fieldTypeId);
+        if(javaClass != null) {
+            generatedClass.field(JMod.PRIVATE, javaClass, fieldName);
+            return;
+        }
         JDefinedClass fieldType = getClassById(codeModel, fieldTypeId);
 
         // Only create a field for known model types
@@ -50,14 +55,7 @@ public class SimpleField implements Generator {
             // Don't create the field if it already exists
             if(generatedClass.fields().get(fieldName) != null) return;
 
-            // Check if we should replace with standard Java type
-            Class<?> javaClass = XmiTypeMapping.get(fieldType.name());
-
-            if(javaClass != null) {
-                generatedClass.field(JMod.PRIVATE, javaClass, fieldName);
-            } else {
-                generatedClass.field(JMod.PRIVATE, fieldType, fieldName);
-            }
+            generatedClass.field(JMod.PRIVATE, fieldType, fieldName);
 
         }
 

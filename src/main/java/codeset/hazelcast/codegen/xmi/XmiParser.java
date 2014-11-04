@@ -1,5 +1,6 @@
 package codeset.hazelcast.codegen.xmi;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,10 +31,10 @@ public class XmiParser {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             documentBuilderFactory.setNamespaceAware(true);
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-    
+
             is = this.getClass().getResourceAsStream(fileName);
 
-            return documentBuilder.parse(is);
+            return documentBuilder.parse(new File(fileName));
 
         } catch(Exception e) {
             throw new IllegalStateException("Failed to read the XMI file: ", e);

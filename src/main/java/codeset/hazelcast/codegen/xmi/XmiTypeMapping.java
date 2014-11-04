@@ -12,6 +12,7 @@ public class XmiTypeMapping {
 
     static {
 
+        mappings.put("Byte", Byte.class);
         mappings.put("Text", String.class);
         mappings.put("Set", Set.class);
         mappings.put("Map", Map.class);
@@ -23,7 +24,7 @@ public class XmiTypeMapping {
 
     }
 
-    public static Class<?> get(String xmiType) {
+    public static Class<?> getMapping(String xmiType) {
 
         return mappings.get(xmiType);
 
@@ -32,6 +33,12 @@ public class XmiTypeMapping {
     public static void addMapping(String xmiTypeName, Class<?> mappingClass) {
 
         mappings.put(xmiTypeName, mappingClass);
+
+    }
+
+    public static void addMappings(Map<String, Class<?>> mappings) {
+
+        mappings.putAll(mappings);
 
     }
 

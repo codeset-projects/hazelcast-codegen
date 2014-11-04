@@ -84,12 +84,17 @@ Maven configuration:
     </build>
 ```
 ######Configuration
-* **modelFile**.
-* **basePackage**.
-* **factoryClassName**.
-* **factoryId**.
-* **classIdFrom**.
-* **target**.
-* **typeMappings**.
+* **modelFile**. The XMI model file location and fileName. Assumed to be starting from the root of your Maven project you use the Codegen plugin from e.g. src/model/my-model.xml. Leave out any leading and trailing slashes.
+* **basePackage**. The root package of your model e.g. com.mycompany.model.
+* **factoryClassName**. The name of the Portable class factory. Must be a valid, fully qualified class name e.g. com.mycompany.model.PortableClassFactory.
+* **factoryId**. The factoryId of the factory and the generated Portable classes.
+* **classIdFrom**. The start of the classId range. Each Portable class will get a number from this range.
+* **target**. The target location of the generated classes. Assumed to be starting from the root of your Maven project e.g. target/generated-sources.
+* **typeMappings**. Your own type mappings for simple fields types we defined above such as Text and Date. The standard model types are mapped to the corresponding Java types. However, for this to work you need to import the types into your modelling tool and pick from those in your field type selection. Alternatively, you can use the vendor type such as EAJava_Boolean in your model and map it to the correct Java type. We provide Enterprise Architect mappings out of the box.
+
+The format is simple: <model type>qualified Java type</model type>
+```
+    <EAJava_Boolean>java.lang.Boolean</EAJava_Boolean>
+```
 
 ####Customization

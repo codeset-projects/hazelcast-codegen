@@ -39,7 +39,7 @@ We thought it would be good to enforce this, since it will keep your models plat
 Classes only need to have fields. The framework will generate get and set methods. The visibility is also ignored, all fields will be private. Methods are ignored by default. If you wish to have a rich domain model with loads of functionality embedded in your domain objects, you need to look at the customization feature which allows you to decorate your generated classes after they have been built.
 
 ####Generating the classes
-Command line:
+Command line: mvn codeset:hazelcast-codegen:1.0:generate -Dparam1 -Dparam2
 
 Maven configuration:
 ```
@@ -81,6 +81,7 @@ Maven configuration:
                 </plugin>
             <plugins>
         <pluginManagement>
+    </build>
 ```
 
 ####Customization

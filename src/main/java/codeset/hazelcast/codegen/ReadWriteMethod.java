@@ -32,12 +32,12 @@ public class ReadWriteMethod implements Generator {
     public void generate(XmiModel xmiModel, JCodeModel codeModel) {
 
         for(JDefinedClass portableClass : getPortables(codeModel)) {
-            generateReadWritePortableMethod(codeModel, xmiModel, portableClass);
+            generateReadWriteMethod(codeModel, xmiModel, portableClass);
         }
 
     }
 
-    private void generateReadWritePortableMethod(JCodeModel codeModel, XmiModel xmiModel, JDefinedClass portableClass) {
+    private void generateReadWriteMethod(JCodeModel codeModel, XmiModel xmiModel, JDefinedClass portableClass) {
 
         JMethod readMethod = portableClass.method(JMod.PUBLIC, codeModel._ref(void.class), "readPortable");
         readMethod._throws(codeModel.ref(IOException.class));
@@ -64,9 +64,9 @@ public class ReadWriteMethod implements Generator {
                 String writeMethodName = null;
                 String readMethodName = null;
                 if (javaClass != null) {
-                    writeMethodName = getHelperWriteMethodName(javaClass);
+                    writeMethodName = getWriteMethodName(javaClass);
                     if(writeMethodName == null) continue;
-                    readMethodName = getHelperReadMethodName(javaClass);
+                    readMethodName = getReadMethodName(javaClass);
                     if(readMethodName == null) continue;
                 } else {
                     writeMethodName = "writePortable";
@@ -107,7 +107,7 @@ public class ReadWriteMethod implements Generator {
 
     }
 
-    private String getHelperWriteMethodName(Class<?> type) {
+    private String getWriteMethodName(Class<?> type) {
 
         if (int.class == type || Integer.class == type) {
             return "writeInt";
@@ -149,7 +149,7 @@ public class ReadWriteMethod implements Generator {
 
     }
 
-    private String getHelperReadMethodName(Class<?> type) {
+    private String getReadMethodName(Class<?> type) {
 
         if (int.class == type || Integer.class == type) {
             return "readInt";

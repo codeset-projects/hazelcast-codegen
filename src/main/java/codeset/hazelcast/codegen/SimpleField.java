@@ -20,11 +20,13 @@ public class SimpleField implements Generator {
     public void generate(XmiModel xmiModel, JCodeModel codeModel) {
 
         for(JDefinedClass cls : getPortables(codeModel)) {
+
             String id = cls.metadata.toString();
             Node classNode = xmiModel.getNodeById(id);
 
             JDefinedClass generatedClass = getClassById(codeModel, id);
             buildSimpleFields(xmiModel, codeModel, classNode, generatedClass);
+
         }
 
     }

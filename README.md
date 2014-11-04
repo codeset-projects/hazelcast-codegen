@@ -36,8 +36,51 @@ These are the field data types we support:
 
 We thought it would be good to enforce this, since it will keep your models platform independent. No one wants to see java.util.ArrayList fields in your model! You can add your own type extensions however.
 
-Classes only need to have fields. The framework will generate get and set methods. The visibility is also ignored, all fields will be private. Methods are ignored by default. If you wish to have a rich domain model with loads of functionality embedded in your domain objects, you should use a different library for now.
+Classes only need to have fields. The framework will generate get and set methods. The visibility is also ignored, all fields will be private. Methods are ignored by default. If you wish to have a rich domain model with loads of functionality embedded in your domain objects, you need to look at the customization feature which allows you to decorate your generated classes after they have been built.
 
 ####Generating the classes
+Command line:
+
+Maven configuration:
+```
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>codeset</groupId>
+                <artifactId>hazelcast-codegen</artifactId>
+                <executions>
+                    <execution>
+                        <!-- Specify in which phase to run the code generation -->
+                        <phase>generate-sources</phase>
+                        <!-- Codegen Mojo goal, must be specified as per below -->
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <!-- See configuration details -->
+                        <configuration>
+                            <modelFile>src/test/resources/codeset-model.xml</modelFile>
+                            <basePackage>model</basePackage>
+                            <factoryClassName>codeset.model.TestPortableFactory</factoryClassName>
+                            <factoryId>1</factoryId>
+                            <classIdFrom>1</classIdFrom>
+                            <target>target/generated-test-sources</target>
+                            <typeMappings>
+                                <EAJava_Boolean>java.lang.Boolean</EAJava_Boolean>
+                            </typeMappings>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>codeset</groupId>
+                    <artifactId>hazelcast-codegen</artifactId>
+                    <version>1.0</version>
+                </plugin>
+            <plugins>
+        <pluginManagement>
+```
 
 ####Customization

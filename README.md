@@ -84,12 +84,12 @@ Maven configuration:
     </build>
 ```
 ######Configuration
-**modelFile**.
-**basePackage**.
-**factoryClassName**.
-**factoryId**.
-**classIdFrom**.
-**target**.
-**typeMappings**.
+* **modelFile**.
+* **basePackage**.
+* **factoryClassName**.
+* **factoryId**.
+* **classIdFrom**.
+* **target**.
+* **typeMappings**.
 
 ####Customization

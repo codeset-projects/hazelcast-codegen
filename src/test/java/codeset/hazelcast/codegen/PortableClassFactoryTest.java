@@ -1,16 +1,15 @@
 package codeset.hazelcast.codegen;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-
-import codeset.hazelcast.codegen.PortableClassFactory;
-import codeset.hazelcast.codegen.write.ModelWriter;
 
 import com.hazelcast.nio.serialization.Portable;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
+import com.sun.codemodel.JType;
 
 public class PortableClassFactoryTest {
 
@@ -34,10 +33,11 @@ public class PortableClassFactoryTest {
         generator.generate(null, codeModel);
 
         JDefinedClass factoryClass = codeModel._getClass(factoryClassName);
-        
-        assertEquals("create", factoryClass.methods().iterator().next().name());
 
-        new ModelWriter().write("target/generated-test-sources", codeModel);
+        // should only be one method
+        assertEquals("create", factoryClass.methods().iterator().next().name());
+        assertEquals("classId", factoryClass.methods().iterator().next().params().get(0).name());
+        assertEquals("int", factoryClass.methods().iterator().next().params().get(0).type().name());
 
     }
 
